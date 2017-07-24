@@ -7,59 +7,36 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
     [TestClass]
     public class ImageHelperTests
     {
-        private const string _imageFolder = "../../img/";
-        private const string _imageName = "A.tiff";
+        private const string ImageFolder = "../../img/";
+        private const string ImageName = "A.tiff";
+        private const string ImageContent = "001000001100010100010100110110100010000000";
 
         [TestMethod]
         [TestCategory("Helpers")]
         public void LoadImageTest()
-        {
-            Image img = Image.FromFile(_imageFolder + _imageName);
-            byte[] good;
-            using (var  ms = new MemoryStream())
-            {
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Tiff);
-                good = ms.ToArray();
-            }
+        {    
+            var test = HopfieldNetworkOCR.Helpers.ImageHelper.LoadImage(ImageFolder + ImageName);
 
-            byte [] test = HopfieldNetworkOCR.Helpers.ImageHelper.LoadImage(_imageFolder + _imageName);
-
-            Assert.AreEqual(good.Length, test.Length);
+            Assert.AreEqual(ImageContent.Length, test.Length);
 
             for (int i=0; i<test.Length; i++)
             {
-                Assert.AreEqual(good[i], test[i]);
+                Assert.AreEqual(ImageContent[i], test[i]);
             }
         }
 
         [TestMethod]
         [TestCategory("Helpers")]
         public void SaveImageTest()
-        {           
-            byte[] test;
-            using (var ms = new MemoryStream())
-            {
-                var img = Image.FromFile(_imageFolder + _imageName);
+        {
+            HopfieldNetworkOCR.Helpers.ImageHelper.SaveImage(ImageContent, ImageFolder + "save_test.tiff", 6, 7);
 
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Tiff);
-                test = ms.ToArray();
-            }
+            var test = HopfieldNetworkOCR.Helpers.ImageHelper.LoadImage(ImageFolder + "save_test.tiff");
 
-            HopfieldNetworkOCR.Helpers.ImageHelper.SaveImage(test, _imageFolder + "save_test.tiff");
-
-            byte[] result;
-            using (var ms = new MemoryStream())
-            {
-                var img = Image.FromFile(_imageFolder + "save_test.tiff");
-
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Tiff);
-                result = ms.ToArray();
-            }
-
-            Assert.AreEqual(test.Length, result.Length);
+            Assert.AreEqual(ImageContent.Length, test.Length);
 
             for (int i = 0; i < test.Length; i++)
-                Assert.AreEqual(test[i], result[i]);           
+                Assert.AreEqual(test[i], ImageContent[i]);
         }
 
         [TestMethod]

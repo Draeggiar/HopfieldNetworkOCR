@@ -1,35 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
+using System.Text;
 
 namespace HopfieldNetworkOCR.Helpers
 {
     public static class ImageHelper
     {
-        public static byte[] LoadImage(string imagePath)
+        public static string LoadImage(string imagePath)
         {
-            var img = Image.FromFile(imagePath);
-            byte[] bytes;
+            var imageContent = new StringBuilder();
+            var img = new Bitmap(imagePath);
 
-            using (var ms = new MemoryStream())
+            for (int i = 0; i < img.Height; i++)
             {
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Tiff);
-                bytes = ms.ToArray();
+                for (int j = 0; j < img.Width; j++)
+                {
+                  Color pixelColor = img.GetPixel(j, i);
+                    if (pixelColor.ToArgb() == Color.Black.ToArgb())
+                    {
+                        imageContent.Append("1");
+                    }
+                    else if (pixelColor.ToArgb() == Color.White.ToArgb())
+                    {
+                        imageContent.Append("0");
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Picture is not binary!");
+                    }
+                }
             }
 
-            return bytes;
+            return imageContent.ToString();
         }
 
-        public static void SaveImage(byte [] imageStream, string imagePath)
+        public static void SaveImage(string imageContent, string imagePath, int imageWidth, int imageHeight)
         {
-            using (var ms = new MemoryStream(imageStream))
+            var newImage = new Bitmap(imageWidth, imageHeight);
+
+            int pixelCount = 0;
+            for (int i = 0; i < imageHeight; i++)
             {
-                var img = Image.FromStream(ms);
-                img.Save(imagePath, System.Drawing.Imaging.ImageFormat.Tiff);
+                for (int j = 0; j < imageWidth; j++)
+                {
+                    newImage.SetPixel(j, i, imageContent[pixelCount] == '0' ? Color.White : Color.Black);
+                    pixelCount += 1;
+                }
             }
+
+            newImage.Save(imagePath);
         }
 
-        public static List<byte[]> LoadAllFromCatalog(string path)
+        public static List<string> LoadAllFromCatalog(string path)
         {
             throw new System.NotImplementedException();
         }

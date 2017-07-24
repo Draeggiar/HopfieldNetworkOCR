@@ -5,7 +5,7 @@ namespace HopfieldNetworkOCR.Helpers
 {
     public static class MatrixHelper
     {
-        public static Matrix ImagesToMatrix(List<byte[]> images)
+        public static Matrix ImagesToMatrix(List<string> images)
         {
             throw new System.NotImplementedException();
         }
