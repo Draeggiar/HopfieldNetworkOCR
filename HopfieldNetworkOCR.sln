@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopfieldNetworkOCR", "Hopfi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopfieldNetworkOCR.UnitTests", "HopfieldNetworkOCR.UnitTests\HopfieldNetworkOCR.UnitTests.csproj", "{05CD634B-3E38-4BB1-A43E-CC562B99E2CC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrainingData", "TrainingData", "{B83E55D8-60D2-48BE-8486-63AEBCF025F0}"
+	ProjectSection(SolutionItems) = preProject
+		TrainingData\arial.ttf = TrainingData\arial.ttf
+		TrainingData\export.bat = TrainingData\export.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
