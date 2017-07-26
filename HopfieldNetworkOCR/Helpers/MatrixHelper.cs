@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using HopfieldNetworkOCR.Model;
 
 namespace HopfieldNetworkOCR.Helpers
@@ -18,9 +19,19 @@ namespace HopfieldNetworkOCR.Helpers
             return matrix;
         }
 
-        public static byte[] MatrixToImage(Matrix matrix)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public static string MatrixToImage(Matrix matrix)
+        //{
+        //    var imageContent = new StringBuilder();
+
+        //    for (int i = 0; i < matrix.Size; i++)
+        //    {
+        //        for (int j = 0; j < matrix.Size; j++)
+        //        {
+                    
+        //        }
+        //    }
+
+        //    return imageContent.ToString();
+        //}
     }
 }

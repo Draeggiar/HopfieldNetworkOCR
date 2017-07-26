@@ -1,12 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using HopfieldNetworkOCR.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HopfieldNetworkOCR.UnitTests.Helpers
 {
     [TestClass]
     public class MatrixHelperTests
     {
-        private const string Pattern1 = "01101";
-        private const string Pattern2 = "10101";
+        public const string Pattern1 = "01101";
+        public const string Pattern2 = "10101";
 
         [TestMethod]
         [TestCategory("Helpers")]
@@ -54,11 +55,18 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
             }
         }
 
-        [TestMethod]
-        [TestCategory("Helpers")]
-        public void MatrixToImageTest()
-        {
-            Assert.Fail();
-        }
+        //[TestMethod]
+        //[TestCategory("Helpers")]
+        //public void MatrixToImageTest()
+        //{
+        //    var test = HopfieldNetworkOCR.Helpers.MatrixHelper.MatrixToImage(new Matrix(Pattern1));
+
+        //    Assert.AreEqual(Pattern1.Length, test.Length);
+
+        //    for (int i = 0; i < test.Length; i++)
+        //    {
+        //        Assert.AreEqual(Pattern1[i], test[i]);
+        //    }
+        //}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace HopfieldNetworkOCR.Model
 {
@@ -25,7 +26,7 @@ namespace HopfieldNetworkOCR.Model
 
         public void Add(Matrix matrixToAdd)
         {
-            if (matrixToAdd.Size != Size) throw new ArgumentException("Macierze muszą mieć ten sam rozmiar");
+            if (matrixToAdd.Size != Size) throw new ArgumentException("Matrixes must have same size");
 
             for (int i = 0; i < Size; i++)
             {
@@ -38,25 +39,25 @@ namespace HopfieldNetworkOCR.Model
             ClearDiagonal();
         }
 
+        public void UpdateWeights()
+        {
+            //TODO
+        }
+
         //private double[] ConvertToBipolar(byte[] row)
         //{
         //    throw new System.NotImplementedException();
         //}
 
-        public Matrix GetColumn(int col)
-        {
-            throw new NotImplementedException();
-        }
+        //public Matrix GetColumn(int col)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Matrix Transpose(string matrix)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Matrix GetResult(Matrix matrix1, string matrix2)
-        {
-            throw new NotImplementedException();
-        }
+        //public Matrix Transpose(string matrix)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private void ClearDiagonal()
         {

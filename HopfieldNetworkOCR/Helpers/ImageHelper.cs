@@ -54,7 +54,7 @@ namespace HopfieldNetworkOCR.Helpers
 
         public static List<string> LoadAllFromCatalog(string path)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

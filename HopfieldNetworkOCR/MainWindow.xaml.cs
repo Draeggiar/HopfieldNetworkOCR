@@ -2,9 +2,7 @@
 
 namespace HopfieldNetworkOCR
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    // http://www.altcontroldelete.pl/artykuly/wpf-tutorial-tworzenie-kontrolek-uzytkownika/
     public partial class MainWindow : Window
     {
         public MainWindow()
