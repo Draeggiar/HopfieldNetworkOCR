@@ -1,5 +1,4 @@
-﻿using HopfieldNetworkOCR.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HopfieldNetworkOCR.UnitTests.Helpers
 {
@@ -8,6 +7,7 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
     {
         public const string Pattern1 = "01101";
         public const string Pattern2 = "10101";
+        public const string Pattern3 = "11111";
 
         [TestMethod]
         [TestCategory("Helpers")]

@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrainingData", "TrainingDat
 		TrainingData\export.bat = TrainingData\export.bat
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HopfieldNetworkOCR.Core", "HopfieldNetworkOCR.Core\HopfieldNetworkOCR.Core.csproj", "{54EF2E9E-CFC5-4714-93D8-6FC8698B5B96}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{05CD634B-3E38-4BB1-A43E-CC562B99E2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05CD634B-3E38-4BB1-A43E-CC562B99E2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05CD634B-3E38-4BB1-A43E-CC562B99E2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54EF2E9E-CFC5-4714-93D8-6FC8698B5B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54EF2E9E-CFC5-4714-93D8-6FC8698B5B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54EF2E9E-CFC5-4714-93D8-6FC8698B5B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54EF2E9E-CFC5-4714-93D8-6FC8698B5B96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

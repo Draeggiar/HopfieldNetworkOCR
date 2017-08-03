@@ -10,22 +10,8 @@
   <Class Name="HopfieldNetworkOCR.Helpers.MatrixHelper">
     <Position X="6.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Helpers\MatrixHelper.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="HopfieldNetworkOCR.Model.Matrix">
-    <Position X="3.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAQAAAAAAAgAAAAIACAAAAAAAAgAAAAEAAAAgAAAA=</HashCode>
-      <FileName>Model\Matrix.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="HopfieldNetworkOCR.Model.HopfieldNetwork">
-    <Position X="0.75" Y="2.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>IEAgAAAAIAAAABACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\HopfieldNetwork.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

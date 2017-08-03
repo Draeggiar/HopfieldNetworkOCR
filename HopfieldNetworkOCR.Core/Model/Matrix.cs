@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HopfieldNetworkOCR.Model
+namespace HopfieldNetworkOCR.Core.Model
 {
     public class Matrix
     {
@@ -38,9 +38,14 @@ namespace HopfieldNetworkOCR.Model
             ClearDiagonal();
         }
 
-        public int GetValueForNode(string input, int node)
+        public int GetValueForNode(string input, int nodeToUpdate)
         {
-            throw new NotImplementedException();
+            int newNodeValue = int.Parse(input[0].ToString()) * this[0, nodeToUpdate].Value;
+            for (int j = 1; j < Size ; j++)
+            {
+                newNodeValue += int.Parse(input[j].ToString()) * this[j, nodeToUpdate].Value;
+            }
+            return newNodeValue;
         }
 
         //private double[] ConvertToBipolar(byte[] row)

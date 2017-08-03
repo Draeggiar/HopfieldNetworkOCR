@@ -47,9 +47,14 @@
     <Compile Include="Helpers\ImageHelperTests.cs" />
     <Compile Include="Helpers\MatrixHelperTests.cs" />
     <Compile Include="Model\HopfieldNetworkTests.cs" />
+    <Compile Include="Model\MatrixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HopfieldNetworkOCR.Core\HopfieldNetworkOCR.Core.csproj">
+      <Project>{54ef2e9e-cfc5-4714-93d8-6fc8698b5b96}</Project>
+      <Name>HopfieldNetworkOCR.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HopfieldNetworkOCR\HopfieldNetworkOCR.csproj">
       <Project>{a3f9f444-9143-4aca-be85-09e549f1f523}</Project>
       <Name>HopfieldNetworkOCR</Name>

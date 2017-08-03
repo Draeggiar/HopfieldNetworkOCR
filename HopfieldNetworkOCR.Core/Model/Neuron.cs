@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace HopfieldNetworkOCR.Model
+namespace HopfieldNetworkOCR.Core.Model
 {
     public class Neuron : IComparable
     {
         private int _value;
         public int Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 OldValue = _value;
