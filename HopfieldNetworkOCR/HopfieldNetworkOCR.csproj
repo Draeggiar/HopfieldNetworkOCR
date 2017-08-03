@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Helpers\MatrixHelper.cs" />
     <Compile Include="Model\Matrix.cs" />
+    <Compile Include="Model\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HopfieldNetworkOCR.UnitTests.Model
@@ -14,7 +15,7 @@ namespace HopfieldNetworkOCR.UnitTests.Model
 
         [TestMethod]
         [TestCategory("HopfieldNetwork")]
-        public void ComputeTest()
+        public void GetResult()
         {
             var matrix = HopfieldNetworkOCR.Helpers.MatrixHelper.ImagesToMatrix(new List<string>
             {

@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Text;
 
 namespace HopfieldNetworkOCR.Model
 {
     public class Matrix
     {
-        private readonly int[,] _bipolarMatrix;
+        private readonly Neuron[,] _bipolarMatrix;
 
-        public int this[int i, int j] => _bipolarMatrix[i, j];
+        public Neuron this[int i, int j] => _bipolarMatrix[i, j];
 
         public int Size { get; }
 
         public Matrix(string inputVector)
         {
             Size = inputVector.Length;
-            _bipolarMatrix = new int[Size, Size];
+            _bipolarMatrix = new Neuron[Size, Size];
             
             Initialize(inputVector);         
         }
@@ -32,16 +31,16 @@ namespace HopfieldNetworkOCR.Model
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    _bipolarMatrix[i, j] += matrixToAdd[i, j];
+                    _bipolarMatrix[i, j].Value += matrixToAdd[i, j].Value;
                 }
             }
 
             ClearDiagonal();
         }
 
-        public void UpdateWeights()
+        public int GetValueForNode(string input, int node)
         {
-            //TODO
+            throw new NotImplementedException();
         }
 
         //private double[] ConvertToBipolar(byte[] row)
@@ -66,7 +65,7 @@ namespace HopfieldNetworkOCR.Model
                 for (int j = 0; j < Size; j++)
                 {
                     if (i == j)
-                        _bipolarMatrix[i, j] = 0;
+                        _bipolarMatrix[i, j].Value = 0;
                 }
             }
         }
@@ -78,8 +77,11 @@ namespace HopfieldNetworkOCR.Model
             {
                 for (int j = 0; j < inputVector.Length; j++)
                 {
-                    _bipolarMatrix[i, j] = (2*int.Parse(inputVector[i].ToString()) - 1)*
-                                           (2*int.Parse(inputVector[j].ToString()) - 1);
+                    _bipolarMatrix[i, j] = new Neuron
+                    {
+                        Value = (2*int.Parse(inputVector[i].ToString()) - 1)*
+                                (2*int.Parse(inputVector[j].ToString()) - 1)
+                    };
                 }
             }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HopfieldNetworkOCR.Model
@@ -6,11 +8,26 @@ namespace HopfieldNetworkOCR.Model
     public class HopfieldNetwork
     {
         private readonly Matrix _curentWeightsMatrix;
-        //private int _iterations;
+
+        private List<int> _nodesToUpdate;
+
+        private int NodeToUpdate
+        {
+            get
+            {
+                if (_nodesToUpdate == null || _nodesToUpdate.Count == 0)
+                    _nodesToUpdate = new List<int>(Enumerable.Range(0, _curentWeightsMatrix.Size));
+
+                var rnd = new Random(DateTime.Now.Millisecond);
+                var index = rnd.Next(0, _nodesToUpdate.Count - 1);
+                var nodeToUpdate = _nodesToUpdate[index];
+
+                _nodesToUpdate.RemoveAt(index);
+                return nodeToUpdate;
+            }
+        }
 
         private int NumberOfNeurons => _curentWeightsMatrix.Size * _curentWeightsMatrix.Size;
-
-        //public int Neurons { get; set; }
 
         public HopfieldNetwork(Matrix weightMatrix)
         {
@@ -23,23 +40,26 @@ namespace HopfieldNetworkOCR.Model
         }
 
         // https://www.tutorialspoint.com/artificial_neural_network/artificial_neural_network_hopfield.htm
-        public string GetResult(string imageToRecognize)
+        public string GetResult(string input)
         {
-            if(_curentWeightsMatrix.Size != imageToRecognize.Length) throw new ArgumentException("Wrong image size");
+            if (_curentWeightsMatrix.Size != input.Length) throw new ArgumentException("Wrong image size");
 
-            var output = new StringBuilder();
+            var output = new StringBuilder(input);
 
-            //TODO verify
-            for (int i = 0; i < _curentWeightsMatrix.Size; i++)
+            var nodeToUpdate = NodeToUpdate;
+
+            int newNodeValue = int.Parse(input[0].ToString()) * _curentWeightsMatrix[0, nodeToUpdate].Value;
+            for (int j = 1; j < _curentWeightsMatrix.Size; j++)
             {
-                int nodeValue = _curentWeightsMatrix[0, i] * int.Parse(imageToRecognize[0].ToString());
-                for (int j = 1; j < _curentWeightsMatrix.Size; j++)
-                {
-                    nodeValue += _curentWeightsMatrix[j, i] * int.Parse(imageToRecognize[j].ToString());
-                }
-                output.Append(nodeValue >= 0 ? "1" : "0");
+                newNodeValue += int.Parse(input[j].ToString()) * _curentWeightsMatrix[j, nodeToUpdate].Value;
             }
 
+            output[nodeToUpdate] = newNodeValue >= 0 ? '1' : '0';
+
+            //TODO change end condition 
+            if (output.ToString() != input || _nodesToUpdate.Count > 0)
+                GetResult(output.ToString());
+            
             return output.ToString();
         }
     }

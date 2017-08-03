@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using HopfieldNetworkOCR.Model;
 
 namespace HopfieldNetworkOCR.Helpers

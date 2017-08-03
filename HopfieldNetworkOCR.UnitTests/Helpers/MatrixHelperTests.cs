@@ -27,7 +27,7 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
             {
                 for (int j=0; j<Pattern1.Length; j++)
                 {
-                    Assert.AreEqual(good[i, j], testMatrix[i, j]);
+                    Assert.AreEqual(good[i, j], testMatrix[i, j].Value);
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
             {
                 for (int j = 0; j < Pattern1.Length; j++)
                 {
-                    Assert.AreEqual(good[i, j], testMatrix[i, j]);
+                    Assert.AreEqual(good[i, j], testMatrix[i, j].Value);
                 }
             }
         }
