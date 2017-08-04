@@ -8,10 +8,8 @@ namespace HopfieldNetworkOCR.UnitTests.Model
     [TestClass]
     public class HopfieldNetworkTests
     {
-
-
         [TestMethod]
-        [TestCategory("HopfieldNetwork")]
+        [TestCategory("Core")]
         public void TrainTest()
         {
             var good = new int[5, 5] { { 0, -2, 0, 0, 0},
@@ -20,9 +18,8 @@ namespace HopfieldNetworkOCR.UnitTests.Model
                                     {0, 0, -2, 0, -2},
                                     {0, 0, 2, -2, 0} };
 
-            var newtork = new HopfieldNetwork(Helpers.MatrixHelperTests.Pattern1);
-            newtork.Train(new List<string>{Helpers.MatrixHelperTests.Pattern2});
-
+            var newtork = new HopfieldNetwork(new List<string> {Helpers.MatrixHelperTests.Pattern1 });
+            newtork.Train(new List<string> { Helpers.MatrixHelperTests.Pattern2});
             var matrixSize = Math.Sqrt(newtork.NumberOfNeurons);
 
             for (int i = 0; i < matrixSize; i++)
@@ -35,7 +32,7 @@ namespace HopfieldNetworkOCR.UnitTests.Model
         }
 
         [TestMethod]
-        [TestCategory("HopfieldNetwork")]
+        [TestCategory("Core")]
         public void GetResult()
         {
             var patternsToTrain = new List<string>
@@ -43,18 +40,17 @@ namespace HopfieldNetworkOCR.UnitTests.Model
                 Helpers.MatrixHelperTests.Pattern2
             };
         
-            var network = new HopfieldNetwork(Helpers.MatrixHelperTests.Pattern1);
+            var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1});
             network.Train(patternsToTrain);
-            var result = network.GetResult(Helpers.MatrixHelperTests.Pattern3);
+            var result = network.GetResult(Helpers.MatrixHelperTests.Pattern1);
 
             Assert.AreEqual(Helpers.MatrixHelperTests.Pattern1, result);
         }
 
-        [TestMethod()]
-        [TestCategory("HopfieldNetwork")]
+        [TestMethod]
         public void EvaluateEnergyFunctionTest()
         {
-            var network = new HopfieldNetwork(Helpers.MatrixHelperTests.Pattern1);
+            var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1 });
             network.Train(new List<string>{Helpers.MatrixHelperTests.Pattern2});
 
             var energyState = network.CurrentEnergyState;

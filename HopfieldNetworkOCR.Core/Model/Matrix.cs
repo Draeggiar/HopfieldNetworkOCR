@@ -9,12 +9,12 @@ namespace HopfieldNetworkOCR.Core.Model
         public Neuron this[int i, int j] => _bipolarMatrix[i, j];
 
         public int Size { get; }
-
+           
         public Matrix(string inputVector)
         {
             Size = inputVector.Length;
             _bipolarMatrix = new Neuron[Size, Size];
-            
+
             Initialize(inputVector);         
         }
 

@@ -7,7 +7,7 @@ namespace HopfieldNetworkOCR.Core.Model
 {
     public class HopfieldNetwork
     {
-        private readonly Matrix _curentWeightsMatrix;
+        private Matrix _curentWeightsMatrix;
 
         private string _inputVector;
 
@@ -32,9 +32,20 @@ namespace HopfieldNetworkOCR.Core.Model
         }
 
         private string _outputVector;
-        //public string OutputVector => GetResult(_inputVector);
+        //public string OutputVector => GetResult(_inputVector)
 
-        public HopfieldNetwork(string input)
+        //public HopfieldNetwork() { }
+
+        public HopfieldNetwork(List<string> input)
+        {
+            var initVector = input.First();
+            input.Remove(initVector);
+            Initialize(initVector);
+
+            Train(input);
+        }
+
+        private void Initialize(string input)
         {
             _inputVector = input;
             _curentWeightsMatrix = new Matrix(input);

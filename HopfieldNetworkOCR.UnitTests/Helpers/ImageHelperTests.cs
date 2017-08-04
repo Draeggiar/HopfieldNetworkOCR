@@ -43,7 +43,12 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
         [TestCategory("Helpers")]
         public void LoadAllFromCatalogTest()
         {
-            Assert.Fail();
+            var images = HopfieldNetworkOCR.Helpers.ImageHelper.LoadAllFromCatalog(ImageFolder);
+
+            foreach (string image in images)
+            {
+                Assert.AreEqual(ImageContent, image);
+            }
         }
     }
 }

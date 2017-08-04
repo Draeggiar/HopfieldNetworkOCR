@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Text;
 
 namespace HopfieldNetworkOCR.Helpers
@@ -54,7 +55,16 @@ namespace HopfieldNetworkOCR.Helpers
 
         public static List<string> LoadAllFromCatalog(string path)
         {
-            throw new NotImplementedException();
+            var images = new List<string>();
+            var dirInfo = new DirectoryInfo(path);
+            var filesInfo = dirInfo.GetFiles("*.tiff");
+
+            foreach (FileInfo fileInfo in filesInfo)
+            {
+                images.Add(LoadImage(path+  "\\" + fileInfo.Name));
+            }
+
+            return images;
         }
     }
 }
