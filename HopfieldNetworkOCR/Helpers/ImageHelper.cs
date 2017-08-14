@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace HopfieldNetworkOCR.Helpers
 {
     public static class ImageHelper
     {
+        private const int ResultImageWidth = 10;
+        private const int ResultImageHeight = 12;
+
         public static string LoadImage(string imagePath)
         {
             var imageContent = new StringBuilder();
@@ -36,7 +40,13 @@ namespace HopfieldNetworkOCR.Helpers
             return imageContent.ToString();
         }
 
-        public static void SaveImage(string imageContent, string imagePath, int imageWidth, int imageHeight)
+        public static void SaveImage(string imageContent, string imagePath, int imageWidth = ResultImageWidth, int imageHeight = ResultImageHeight)
+        {
+            var newImage = ConvertVectorToImage(imageContent, imageWidth, imageHeight);
+            newImage.Save(imagePath);
+        }
+
+        public static Bitmap ConvertVectorToImage(string imageContent, int imageWidth = ResultImageWidth, int imageHeight = ResultImageHeight)
         {
             var newImage = new Bitmap(imageWidth, imageHeight);
 
@@ -50,7 +60,7 @@ namespace HopfieldNetworkOCR.Helpers
                 }
             }
 
-            newImage.Save(imagePath);
+            return newImage;
         }
 
         public static List<string> LoadAllFromCatalog(string path)
@@ -66,5 +76,22 @@ namespace HopfieldNetworkOCR.Helpers
 
             return images;
         }
+
+        public static BitmapImage BitmapToImageSource(Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                BitmapImage bitmapimage = new BitmapImage();
+                bitmapimage.BeginInit();
+                bitmapimage.StreamSource = memory;
+                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
+
+                return bitmapimage;
+            }
+        } 
+
     }
 }

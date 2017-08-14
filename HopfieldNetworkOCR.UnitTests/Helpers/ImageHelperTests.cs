@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HopfieldNetworkOCR.UnitTests.Helpers
 {
@@ -8,8 +9,6 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
         private const string ImageFolder = "../../img/";
         private const string ImageName = "A.tiff";
         private const string ImageContent = "000000000000001000000001110000000111000000110110000011011000011101110001111111001110001110110000011010000000100000000000";
-        private const int ImageWidth = 10;
-        private const int ImageHeight = 12;
 
         [TestMethod]
         [TestCategory("Helpers")]
@@ -27,9 +26,18 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
 
         [TestMethod]
         [TestCategory("Helpers")]
+        public void ConvertVectorToImageTest()
+        {
+            var test = HopfieldNetworkOCR.Helpers.ImageHelper.ConvertVectorToImage(ImageContent);
+
+            Assert.AreEqual(typeof(Bitmap), test.GetType());
+        }
+
+        [TestMethod]
+        [TestCategory("Helpers")]
         public void SaveImageTest()
         {
-            HopfieldNetworkOCR.Helpers.ImageHelper.SaveImage(ImageContent, ImageFolder + "save_test.tiff", ImageWidth, ImageHeight);
+            HopfieldNetworkOCR.Helpers.ImageHelper.SaveImage(ImageContent, ImageFolder + "save_test.tiff");
 
             var test = HopfieldNetworkOCR.Helpers.ImageHelper.LoadImage(ImageFolder + "save_test.tiff");
 

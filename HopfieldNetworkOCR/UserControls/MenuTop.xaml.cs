@@ -1,12 +1,15 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Forms;
+using HopfieldNetworkOCR.Annotations;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace HopfieldNetworkOCR.UserControls
 {
     public partial class MenuTop : UserControl
     {
-        public string LearningDataCatalogPath { get; private set; }
+        public static string LearningDataCatalogPath { get; private set; }
 
         public MenuTop()
         {

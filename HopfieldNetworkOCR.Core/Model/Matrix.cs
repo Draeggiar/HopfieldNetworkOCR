@@ -40,10 +40,10 @@ namespace HopfieldNetworkOCR.Core.Model
 
         public int GetValueForNode(string input, int nodeToUpdate)
         {
-            int newNodeValue = int.Parse(input[0].ToString()) * this[0, nodeToUpdate].Value;
+            int newNodeValue = int.Parse(input[0].ToString()) * this[nodeToUpdate, 0].Value;
             for (int j = 1; j < Size ; j++)
             {
-                newNodeValue += int.Parse(input[j].ToString()) * this[j, nodeToUpdate].Value;
+                newNodeValue += int.Parse(input[j].ToString()) * this[nodeToUpdate, j].Value;
             }
             return newNodeValue;
         }
@@ -63,7 +63,7 @@ namespace HopfieldNetworkOCR.Core.Model
         //    throw new NotImplementedException();
         //}
 
-        private void ClearDiagonal()
+        public void ClearDiagonal()
         {
             for (int i = 0; i < Size; i++)
             {

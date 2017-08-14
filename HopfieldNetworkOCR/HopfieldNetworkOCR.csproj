@@ -52,6 +52,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="UserControls\MenuTop.xaml.cs">
       <DependentUpon>MenuTop.xaml</DependentUpon>
     </Compile>
