@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="HopfieldNetworkOCR.UserControls.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Plik" Margin="5">
+                <MenuItem Header="_Zapisz sieć" IsEnabled="{Binding Model.NetworkExists}"/>
+                <MenuItem Header="_Wczytaj sieć"/>
+                <MenuItem Name="miChooseImage" Header="_Wybierz obraz do rozpoznania" 
+                          IsEnabled="{Binding Model.NetworkTrained}"
+                          Click="miChooseImage_OnClick"/>
+            </MenuItem>
+            <MenuItem Header="_Sieć" Margin="5">
+                <MenuItem Name="miNetworkNew" Header="_Utwórz nową" Click="miNetworkNew_OnClick"/>
+                <MenuItem Name="miNetworkLearn" Header="_Ucz" 
+                          IsEnabled="{Binding Model.NetworkExists}"
+                          Click="miNetwork_Learn_OnClick"/>
+            </MenuItem>
+        </Menu>
+    </DockPanel>
+</UserControl>

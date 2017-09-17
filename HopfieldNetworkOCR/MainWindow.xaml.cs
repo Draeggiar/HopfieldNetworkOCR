@@ -1,67 +1,57 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using HopfieldNetworkOCR.Core.Model;
 using HopfieldNetworkOCR.Helpers;
-using HopfieldNetworkOCR.UserControls;
-using Microsoft.Win32;
+using HopfieldNetworkOCR.ViewModels;
 
 namespace HopfieldNetworkOCR
 {
     // http://www.altcontroldelete.pl/artykuly/wpf-tutorial-tworzenie-kontrolek-uzytkownika/
-    public partial class MainWindow : Window
+    // http://www.wpf-tutorial.com/
+    public partial class MainWindow
     {
-        private string _imageToRecognizePath;
+        public static NetworkViewModel Model { get; private set; }
 
         public MainWindow()
         {
+            Model = new NetworkViewModel();
+            Model.PropertyChanged += model_OnPropertyChanged;
             InitializeComponent();
-            //if (MenuTop.LearningDataCatalogPath == null)
-            //{
-            //    btnChoseImageToRecognize.Visibility = Visibility.Hidden;
-            //    btnRecognizeImage.Visibility = Visibility.Hidden;
-            //}
-            //else
-            //{
-            //    btnChoseImageToRecognize.Visibility = Visibility.Visible;
-            //    btnRecognizeImage.Visibility = Visibility.Visible;
-            //}
         }
 
-        private void btnChoseImageToRecognize_OnClick(object sender, RoutedEventArgs e)
+        private void model_OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            FileDialog fileChoseDialog = new OpenFileDialog
+            switch (propertyChangedEventArgs.PropertyName)
             {
-                Multiselect = false,
-                Filter = "Tiff files|*.tiff",
-                Title = "Wybierz obraz do rozpoznania"
-            };
-            if (fileChoseDialog.ShowDialog() == true)
-            {
-                var imgPath = fileChoseDialog.FileName;
-                _imageToRecognizePath = imgPath;
-
-                imgInput.Source = new BitmapImage(new Uri(_imageToRecognizePath));
+                case "NetworkExists":
+                    if (Model.NetworkExists)
+                    {
+                        pbStatus.Visibility = Visibility.Visible;
+                        txtStatus.Visibility = Visibility.Visible;
+                        Model.HopfieldNetwork.OnItemProcessed += HopfieldNetwork_OnOnItemProcessed;
+                    }
+                    break;
             }
         }
 
+        //TODO progress przy rozpoznaniu
         private void btnRecognizeImage_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_imageToRecognizePath != null)
-                RecognizeImage(_imageToRecognizePath);
-        }
+            imgOutput.Source = null;
 
-        private void RecognizeImage(string imageToRecognizePath)
-        {
-            imgOutput.Source=null;
+            var imageContent = ImageHelper.LoadImage(Model.ImageToRecognizePath);
 
-            var imageContent = ImageHelper.LoadImage(imageToRecognizePath);
-
-            var leariningData = ImageHelper.LoadAllFromCatalog(MenuTop.LearningDataCatalogPath);
-            var network = new HopfieldNetwork(leariningData);
-            var resultImage = network.GetResult(imageContent);
+            var resultImage = Model.HopfieldNetwork.GetResult(imageContent);
 
             imgOutput.Source = ImageHelper.BitmapToImageSource(ImageHelper.ConvertVectorToImage(resultImage));
+        }
+
+        private void HopfieldNetwork_OnOnItemProcessed(object sender, TrainEventArgs trainEventArgs)
+        {
+            var progresPercentage = (double) trainEventArgs.CurrentItemProcessed /
+                                    (double) trainEventArgs.ItemsCount * 100.0;
+            pbStatus.Dispatcher.Invoke(() => pbStatus.Value = progresPercentage, DispatcherPriority.Background);
         }
     }
 }

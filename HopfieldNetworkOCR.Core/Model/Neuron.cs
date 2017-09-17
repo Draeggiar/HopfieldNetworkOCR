@@ -8,7 +8,7 @@ namespace HopfieldNetworkOCR.Core.Model
         private int _value;
         public int Value
         {
-            get => _value;
+            get { return _value; }
             set
             {
                 OldValue = _value;

@@ -3,16 +3,32 @@
   <Class Name="HopfieldNetworkOCR.Helpers.ImageHelper">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAQAAAAAAABA=</HashCode>
+      <HashCode>BAAAAAAAAAAABAEAAAAAAAAAAAAAIAAAAQAAAAAAARA=</HashCode>
       <FileName>Helpers\ImageHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HopfieldNetworkOCR.Helpers.MatrixHelper">
-    <Position X="6.75" Y="0.5" Width="1.5" />
+    <Position X="5.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Helpers\MatrixHelper.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="HopfieldNetworkOCR.MainWindow" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HopfieldNetworkOCR.UserControls.MainMenu" Collapsed="true">
+    <Position X="3" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAEEAAAAAAAAAgAAAAAAgA=</HashCode>
+      <FileName>UserControls\MainMenu.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

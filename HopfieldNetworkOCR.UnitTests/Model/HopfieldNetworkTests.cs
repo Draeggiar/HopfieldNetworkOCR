@@ -18,17 +18,29 @@ namespace HopfieldNetworkOCR.UnitTests.Model
                                     {0, 0, -2, 0, -2},
                                     {0, 0, 2, -2, 0} };
 
-            var newtork = new HopfieldNetwork(new List<string> {Helpers.MatrixHelperTests.Pattern1 });
-            newtork.Train(new List<string> { Helpers.MatrixHelperTests.Pattern2});
-            var matrixSize = Math.Sqrt(newtork.NumberOfNeurons);
+            var network = new HopfieldNetwork(new List<string> {Helpers.MatrixHelperTests.Pattern1 });
+            network.Train(new List<string> { Helpers.MatrixHelperTests.Pattern2});
+            var matrixSize = Math.Sqrt(network.NumberOfNeurons);
 
             for (int i = 0; i < matrixSize; i++)
             {
                 for (int j = 0; j < matrixSize; j++)
                 {
-                    Assert.AreEqual(good[i, j], newtork.GetNeuronValue(i, j));
+                    Assert.AreEqual(good[i, j], network.GetNeuronValue(i, j));
                 }
             }
+        }
+
+        [TestMethod]
+        [TestCategory("Core")]
+        public void TrainEventTest()
+        {
+            var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1 });
+            network.OnItemProcessed += (sender, args) =>
+            {
+                Assert.AreEqual(Math.Sqrt(network.NumberOfNeurons), args.ItemsCount);
+            };
+            network.Train(new List<string> { Helpers.MatrixHelperTests.Pattern2 });
         }
 
         [TestMethod]
@@ -48,6 +60,7 @@ namespace HopfieldNetworkOCR.UnitTests.Model
         }
 
         [TestMethod]
+        [TestCategory("Core")]
         public void EvaluateEnergyFunctionTest()
         {
             var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1 });
