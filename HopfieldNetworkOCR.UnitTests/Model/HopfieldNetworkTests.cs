@@ -12,14 +12,16 @@ namespace HopfieldNetworkOCR.UnitTests.Model
         [TestCategory("Core")]
         public void TrainTest()
         {
-            var good = new int[5, 5] { { 0, -2, 0, 0, 0},
-                                    {-2, 0, 0, 0, 0},
-                                    {0, 0, 0, -2, 2},
-                                    {0, 0, -2, 0, -2},
-                                    {0, 0, 2, -2, 0} };
+            //Matrix for pattern1 
+            var good = new int[5, 5] { { 0, -1, -1, 1, -1},
+                                        {-1, 0, 1, -1, 1},
+                                        {-1, 1, 0, -1, 1},
+                                        {1, -1, -1, 0, -1},
+                                        {-1, 1, 1, -1, 0}};
+            var network = new HopfieldNetwork(new List<string> {Helpers.MatrixHelperTests.Pattern2 });
 
-            var network = new HopfieldNetwork(new List<string> {Helpers.MatrixHelperTests.Pattern1 });
-            network.Train(new List<string> { Helpers.MatrixHelperTests.Pattern2});
+            //Hebbian rule
+            network.Train(new List<string> { Helpers.MatrixHelperTests.Pattern1});
             var matrixSize = Math.Sqrt(network.NumberOfNeurons);
 
             for (int i = 0; i < matrixSize; i++)
@@ -51,8 +53,8 @@ namespace HopfieldNetworkOCR.UnitTests.Model
             {
                 Helpers.MatrixHelperTests.Pattern2
             };
-        
             var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1});
+
             network.Train(patternsToTrain);
             var result = network.GetResult(Helpers.MatrixHelperTests.Pattern1);
 
@@ -70,7 +72,7 @@ namespace HopfieldNetworkOCR.UnitTests.Model
 
             network.GetResult(Helpers.MatrixHelperTests.Pattern3);
 
-            Assert.IsTrue(network.CurrentEnergyState < energyState);
+            Assert.IsTrue(network.CurrentEnergyState <= energyState);
         }
     }
 }

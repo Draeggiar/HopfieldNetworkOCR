@@ -27,6 +27,7 @@ namespace HopfieldNetworkOCR
                 case "NetworkExists":
                     if (Model.NetworkExists)
                     {
+                        txtNetworkName.Visibility = Visibility.Visible;
                         pbStatus.Visibility = Visibility.Visible;
                         txtStatus.Visibility = Visibility.Visible;
                         Model.HopfieldNetwork.OnItemProcessed += HopfieldNetwork_OnOnItemProcessed;
@@ -43,6 +44,7 @@ namespace HopfieldNetworkOCR
             var imageContent = ImageHelper.LoadImage(Model.ImageToRecognizePath);
 
             var resultImage = Model.HopfieldNetwork.GetResult(imageContent);
+            Model.HopfieldNetwork.ResetNetworkState();
 
             imgOutput.Source = ImageHelper.BitmapToImageSource(ImageHelper.ConvertVectorToImage(resultImage));
         }

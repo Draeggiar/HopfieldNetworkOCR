@@ -15,7 +15,6 @@ namespace HopfieldNetworkOCR.UnitTests.Model
                                         {-1, 1, 0, -1, 1},
                                         {1, -1, -1, 0, -1},
                                         {-1, 1, 1, -1, 0}};
-
             var matrix = new Matrix(Helpers.MatrixHelperTests.Pattern1);
 
             Assert.AreEqual(Helpers.MatrixHelperTests.Pattern1.Length, matrix.Size);
@@ -39,6 +38,28 @@ namespace HopfieldNetworkOCR.UnitTests.Model
             var result = matrix.GetValueForNode(Helpers.MatrixHelperTests.Pattern3, 2) >= 0 ? '1' : '0';
 
             Assert.AreEqual('1', result);
+        }
+
+        [TestMethod]
+        [TestCategory("Core")]
+        public void AddTest()
+        {
+            var expexted = new int[5, 5] { { 0, -2, 0, 0, 0},
+                                        {-2, 0, 0, 0, 0},
+                                        {0, 0, 0, -2, 2},
+                                        {0, 0, -2, 0, -2},
+                                        {0, 0, 2, -2, 0}};
+            var matrix = new Matrix(Helpers.MatrixHelperTests.Pattern1);
+
+            matrix.Add(new Matrix(Helpers.MatrixHelperTests.Pattern2));
+
+            for (int i = 0; i < matrix.Size; i++)
+            {
+                for (int j = 0; j < matrix.Size; j++)
+                {
+                    Assert.AreEqual(expexted[i, j], matrix[i, j].Value);
+                }
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace HopfieldNetworkOCR.Core.Model
 
         private Matrix _curentWeightsMatrix;
         private string _inputVector;
+        private string _outputVector;
         private Dictionary<double, string> _bestPair;
 
         //TODO check for null
@@ -33,8 +34,6 @@ namespace HopfieldNetworkOCR.Core.Model
                 return nodeToUpdate;
             }
         }
-
-        private string _outputVector;
 
         public HopfieldNetwork() { }
 
@@ -153,6 +152,13 @@ namespace HopfieldNetworkOCR.Core.Model
             }
 
             return energy;
+        }
+
+        public void ResetNetworkState()
+        {
+            _bestPair.Clear();
+            _bestPair.Add(double.MaxValue, string.Empty);
+            _nodesToUpdate = null;
         }
     }
 

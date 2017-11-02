@@ -7,15 +7,16 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Plik" Margin="5">
-                <MenuItem Header="_Zapisz sieć" IsEnabled="{Binding Model.NetworkExists}"/>
-                <MenuItem Header="_Wczytaj sieć"/>
+        <Menu DockPanel.Dock="Top" Height="25">
+            <MenuItem Header="_Plik" Height="25">
+                <!-- TODO zapis i wczytywanie sieci -->
+                <MenuItem Header="_Zapisz sieć" IsEnabled="False"/>
+                <MenuItem Header="_Wczytaj sieć" IsEnabled="False"/>
                 <MenuItem Name="miChooseImage" Header="_Wybierz obraz do rozpoznania" 
                           IsEnabled="{Binding Model.NetworkTrained}"
                           Click="miChooseImage_OnClick"/>
             </MenuItem>
-            <MenuItem Header="_Sieć" Margin="5">
+            <MenuItem Header="_Sieć" Height="25">
                 <MenuItem Name="miNetworkNew" Header="_Utwórz nową" Click="miNetworkNew_OnClick"/>
                 <MenuItem Name="miNetworkLearn" Header="_Ucz" 
                           IsEnabled="{Binding Model.NetworkExists}"

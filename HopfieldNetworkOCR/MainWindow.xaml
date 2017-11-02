@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:userControls="clr-namespace:HopfieldNetworkOCR.UserControls"
         mc:Ignorable="d"
-        Title="HopfieldNetworkOCR" Height="500" Width="650"
-        UseLayoutRounding="True"
+        Title="HopfieldNetworkOCR" Height="500" Width="650" ResizeMode="NoResize"
+        UseLayoutRounding="True" Background="CornflowerBlue"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TopMenuRow" Height="0.1*"/>
             <RowDefinition x:Name="MarginTop" Height="0.05*"/>
+            <RowDefinition x:Name="NetworkInfo" Height="0.05*"></RowDefinition>
             <RowDefinition x:Name="ProgressBar" Height="0.1*"/>
             <RowDefinition x:Name="ImageContainers"/>
             <RowDefinition Height="0.2*"/>
@@ -27,39 +28,45 @@
             <RowDefinition x:Name="MarginBottom" Height="0.05*"/>
         </Grid.RowDefinitions>
 
-        <userControls:MainMenu x:Name="MainMenu" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <userControls:MainMenu x:Name="MainMenu" Grid.Row="0" Grid.ColumnSpan="6" 
+                               VerticalAlignment="Top" HorizontalAlignment="Left"
+                               Width="650"/>
 
+        <TextBlock Name="txtNetworkName" FontSize="12" Visibility="Hidden"
+                   Grid.Column="1" Grid.ColumnSpan="4"
+                   Grid.Row="2"
+                   HorizontalAlignment="Center"><Italic>Hopfield1*</Italic></TextBlock>
         <ProgressBar Name="pbStatus" Margin="8px"
                 Grid.Column="1" Grid.ColumnSpan="4"
-                Grid.Row="2"
+                Grid.Row="3"
                 Minimum="0" Maximum="100"
                 Visibility="Hidden"/>
         <TextBlock Name="txtStatus" Grid.Column="1" Grid.ColumnSpan="4"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"
                     Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}"/>
 
         <!-- TODO Custom image container -->
         <Image Name="imgInput" Stretch="Uniform"
                Grid.Column="1" Grid.ColumnSpan="2"
-               Grid.Row="3"
-               Margin="8px"
+               Grid.Row="4"
+               Margin="10px"
                Source="{Binding Model.ImageToRecognize}"/>
         <Image Name="imgOutput" Stretch="Uniform"
                Grid.Column="3" Grid.ColumnSpan="2"
-               Grid.Row="3"
-               Margin="8px"/>
+               Grid.Row="4"
+               Margin="10px"/>
 
         <Button Name="btnRecognizeImage"
                 Grid.Column="2" Grid.ColumnSpan="2"
-                Grid.Row="4"
+                Grid.Row="5"
                 Width="120" Height="30"
                 Visibility="{Binding Model.RecognizeAvalible}"
                 Click="btnRecognizeImage_OnClick">Rozpoznaj obraz</Button>
 
         <Label Name="lblOutput"
             Grid.Column="1" Grid.ColumnSpan="4"
-               Grid.Row="5"
+               Grid.Row="6"
                HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Window>
