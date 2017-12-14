@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
 using HopfieldNetworkOCR.Core.Model;
@@ -18,6 +19,13 @@ namespace HopfieldNetworkOCR
             Model = new NetworkViewModel();
             Model.PropertyChanged += model_OnPropertyChanged;
             InitializeComponent();
+
+            Application.Current.DispatcherUnhandledException += HandleApplicationExceptions;
+        }
+
+        private void HandleApplicationExceptions(object sender, DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)
+        {
+            txtOutput.Text = dispatcherUnhandledExceptionEventArgs.Exception.Message;
         }
 
         private void model_OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -41,19 +49,29 @@ namespace HopfieldNetworkOCR
         {
             imgOutput.Source = null;
 
-            var imageContent = ImageHelper.LoadImage(Model.ImageToRecognizePath);
+            try
+            {
+                var imageContent = ImageHelper.LoadImage(Model.ImageToRecognizePath);
 
-            var resultImage = Model.HopfieldNetwork.GetResult(imageContent);
-            Model.HopfieldNetwork.ResetNetworkState();
+                var resultImage = Model.HopfieldNetwork.GetResult(imageContent);
+                Model.HopfieldNetwork.ResetNetworkState();
 
-            imgOutput.Source = ImageHelper.BitmapToImageSource(ImageHelper.ConvertVectorToImage(resultImage));
+                imgOutput.Source = ImageHelper.BitmapToImageSource(ImageHelper.ConvertVectorToImage(resultImage));
+                //txtRecognizedChar.Text = ImageHelper.ConvertImageToChar(resultImage).ToString();
+            }
+            catch (Exception ex)
+            {
+                txtOutput.Text = ex.Message;
+            }
         }
 
         private void HopfieldNetwork_OnOnItemProcessed(object sender, TrainEventArgs trainEventArgs)
         {
-            var progresPercentage = (double) trainEventArgs.CurrentItemProcessed /
+            var progresPercentage = (double) trainEventArgs.CurrentItem /
                                     (double) trainEventArgs.ItemsCount * 100.0;
             pbStatus.Dispatcher.Invoke(() => pbStatus.Value = progresPercentage, DispatcherPriority.Background);
         }
+
+
     }
 }

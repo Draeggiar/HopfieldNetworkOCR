@@ -40,9 +40,7 @@
     <Compile Include="Model\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logic\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="HopfieldCore.cd" />
   </ItemGroup>

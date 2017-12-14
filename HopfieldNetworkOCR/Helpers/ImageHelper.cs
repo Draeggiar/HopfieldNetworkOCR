@@ -63,6 +63,11 @@ namespace HopfieldNetworkOCR.Helpers
             return newImage;
         }
 
+        public static char ConvertImageToChar(string imageContent)
+        {
+            throw new NotImplementedException();
+        }
+
         public static List<string> LoadAllFromCatalog(string path)
         {
             var images = new List<string>();
@@ -71,7 +76,7 @@ namespace HopfieldNetworkOCR.Helpers
 
             foreach (FileInfo fileInfo in filesInfo)
             {
-                images.Add(LoadImage(path+  "\\" + fileInfo.Name));
+                images.Add(LoadImage(path + "\\" + fileInfo.Name));
             }
 
             return images;

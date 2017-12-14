@@ -48,7 +48,7 @@ namespace HopfieldNetworkOCR.Core.Model
             _inputVector = input.First();
             _curentWeightsMatrix = new Matrix(input.First());
             _outputVector = input.First();
-            _bestPair = new Dictionary<double, string> { { CurrentEnergyState, input.First() } };
+            //_bestPair = new Dictionary<double, string> { { CurrentEnergyState, input.First() } };
         }
 
         public int GetNeuronValue(int i, int j)
@@ -78,7 +78,8 @@ namespace HopfieldNetworkOCR.Core.Model
                     }
                     _curentWeightsMatrix[i, j].Value = weights;
                 }
-                trainEventArgs.CurrentItemProcessed = i+1;
+                //trainEventArgs.ItemName = inputVectors.ToList()[i];
+                trainEventArgs.CurrentItem = i + 1;
                 OnItemProcessed?.Invoke(this, trainEventArgs);
             }
 
@@ -88,33 +89,44 @@ namespace HopfieldNetworkOCR.Core.Model
         // https://www.tutorialspoint.com/artificial_neural_network/artificial_neural_network_hopfield.htm
         public string GetResult(string input)
         {
-            while (true)
+            if (_bestPair == null)
+                _bestPair = new Dictionary<double, string> { { double.MaxValue, string.Empty } };
+
+            if (_curentWeightsMatrix.Size != input.Length) throw new ArgumentException("Wrong image size");
+
+            var savedEnergyState = CurrentEnergyState;
+            _inputVector = input;
+            var output = new StringBuilder(input);
+
+            var nodeToUpdate = NodeToUpdate;
+            output[nodeToUpdate] = CalculateOutput(input, nodeToUpdate);
+            _outputVector = output.ToString();
+
+            if (CurrentEnergyState <= _bestPair.First().Key)
             {
-                if (_curentWeightsMatrix.Size != input.Length) throw new ArgumentException("Wrong image size");
-
-                var savedEnergyState = CurrentEnergyState;
-                _inputVector = input;
-                var output = new StringBuilder(input);
-
-                var nodeToUpdate = NodeToUpdate;
-                output[nodeToUpdate] = _curentWeightsMatrix.GetValueForNode(input, nodeToUpdate) >= 0 ? '1' : '0';
-                _outputVector = output.ToString();
-
-                if (CurrentEnergyState < _bestPair.First().Key)
-                {
-                    _bestPair.Clear();
-                    _bestPair.Add(CurrentEnergyState, _outputVector);
-                }
-
-                if (_outputVector != input && CurrentEnergyState < savedEnergyState)
-                    GetResult(_outputVector);
-
-                if (FinalCheck(_outputVector))
-                    break;
-
-                input = _outputVector;
+                _bestPair.Clear();
+                _bestPair.Add(CurrentEnergyState, _outputVector);
             }
+
+            if (_outputVector != input 
+                || CurrentEnergyState < savedEnergyState
+                || _nodesToUpdate.Count > 0)
+                GetResult(_outputVector);
+
+            if (!FinalCheck(_outputVector))
+                GetResult(_outputVector);
             return _bestPair.First().Value;
+        }
+
+        private char CalculateOutput(string input, int nodeToUpdate)
+        {
+            var bipolarValue = _curentWeightsMatrix.GetValueForNode(input, nodeToUpdate);
+
+            if (bipolarValue > 0)
+                return '1';
+            else if (bipolarValue < 0)
+                return '0';
+            return input[nodeToUpdate];
         }
 
         private bool FinalCheck(string vectorToCheck)
@@ -123,7 +135,7 @@ namespace HopfieldNetworkOCR.Core.Model
 
             for (int i = 0; i < _curentWeightsMatrix.Size; i++)
             {
-                output[i] = _curentWeightsMatrix.GetValueForNode(vectorToCheck, i) >= 0 ? '1' : '0';
+                output[i] = CalculateOutput(vectorToCheck, i);
                 if (output.ToString() != vectorToCheck)
                     return false;
             }
@@ -165,7 +177,8 @@ namespace HopfieldNetworkOCR.Core.Model
     public class TrainEventArgs : EventArgs
     {
         public int ItemsCount;
-        public int CurrentItemProcessed;
+        public int CurrentItem;
+        public string ItemName;
 
         internal TrainEventArgs(int items)
         {

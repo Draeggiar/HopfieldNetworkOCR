@@ -30,7 +30,8 @@ namespace HopfieldNetworkOCR.UserControls
             {
                 fbd.Description = "Wybierz katalog z danymi uczącymi";
                 if (fbd.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath)) return;
-                var leariningData = ImageHelper.LoadAllFromCatalog(fbd.SelectedPath);
+                var leariningData = ImageHelper.
+                    LoadAllFromCatalog(fbd.SelectedPath);
                 Model.HopfieldNetwork.Train(leariningData);
                 Model.NetworkTrained = true;
             }
