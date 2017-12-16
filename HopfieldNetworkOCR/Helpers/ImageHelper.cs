@@ -63,20 +63,15 @@ namespace HopfieldNetworkOCR.Helpers
             return newImage;
         }
 
-        public static char ConvertImageToChar(string imageContent)
+        public static Dictionary<string, string> LoadAllFromCatalog(string path)
         {
-            throw new NotImplementedException();
-        }
-
-        public static List<string> LoadAllFromCatalog(string path)
-        {
-            var images = new List<string>();
+            var images = new Dictionary<string, string>();
             var dirInfo = new DirectoryInfo(path);
             var filesInfo = dirInfo.GetFiles("*.tiff");
 
             foreach (FileInfo fileInfo in filesInfo)
             {
-                images.Add(LoadImage(path + "\\" + fileInfo.Name));
+                images.Add(fileInfo.Name.Split('.')[0], LoadImage(path + "\\" + fileInfo.Name));
             }
 
             return images;
@@ -97,6 +92,5 @@ namespace HopfieldNetworkOCR.Helpers
                 return bitmapimage;
             }
         } 
-
     }
 }

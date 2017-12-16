@@ -41,6 +41,13 @@ namespace HopfieldNetworkOCR
                         Model.HopfieldNetwork.OnItemProcessed += HopfieldNetwork_OnOnItemProcessed;
                     }
                     break;
+                case "IsKnownCharacter":
+                    Visibility visibility;
+                    visibility = Model.IsKnownCharacter ? Visibility.Visible : Visibility.Hidden;
+
+                    txtRecognizedCharLabel.Visibility = visibility;
+                    txtRecognizedChar.Visibility = visibility;
+                    break;
             }
         }
 
@@ -48,16 +55,26 @@ namespace HopfieldNetworkOCR
         private void btnRecognizeImage_OnClick(object sender, RoutedEventArgs e)
         {
             imgOutput.Source = null;
+            txtRecognizedChar.Text = string.Empty;
 
             try
             {
                 var imageContent = ImageHelper.LoadImage(Model.ImageToRecognizePath);
+                char recognizedChar;
 
                 var resultImage = Model.HopfieldNetwork.GetResult(imageContent);
-                Model.HopfieldNetwork.ResetNetworkState();
 
                 imgOutput.Source = ImageHelper.BitmapToImageSource(ImageHelper.ConvertVectorToImage(resultImage));
-                //txtRecognizedChar.Text = ImageHelper.ConvertImageToChar(resultImage).ToString();
+
+                if (Model.HopfieldNetwork.TryGetChar(resultImage, out recognizedChar))
+                {
+                    Model.IsKnownCharacter = true;
+                    txtRecognizedChar.Text = recognizedChar.ToString();
+                }
+                else
+                    Model.IsKnownCharacter = false;
+
+                Model.HopfieldNetwork.ResetNetworkState();
             }
             catch (Exception ex)
             {
@@ -71,7 +88,5 @@ namespace HopfieldNetworkOCR
                                     (double) trainEventArgs.ItemsCount * 100.0;
             pbStatus.Dispatcher.Invoke(() => pbStatus.Value = progresPercentage, DispatcherPriority.Background);
         }
-
-
     }
 }

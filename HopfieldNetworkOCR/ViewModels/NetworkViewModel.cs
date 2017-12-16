@@ -55,6 +55,17 @@ namespace HopfieldNetworkOCR.ViewModels
         public Visibility RecognizeAvalible =>
             string.IsNullOrEmpty(ImageToRecognizePath) ? Visibility.Hidden : Visibility.Visible;
 
+        private bool _isKnownCharacter;
+        public bool IsKnownCharacter
+        {
+            get { return _isKnownCharacter; }
+            set
+            {
+                _isKnownCharacter = value;
+                OnPropertyChanged(nameof(IsKnownCharacter));
+            }
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -58,18 +58,16 @@
                Grid.Row="4"
                Margin="10px"/>
 
-        <!-- TODO Binding -->
-        <!--
-        <TextBlock Grid.Column="2" Grid.Row="5"
-                   VerticalAlignment="Center" HorizontalAlignment="Right">
+        <TextBlock Name ="txtRecognizedCharLabel" Grid.Column="2" Grid.Row="5"
+                   VerticalAlignment="Center" HorizontalAlignment="Right"
+                   Visibility="Hidden">
             <Bold>Rozpoznany znak: </Bold>
         </TextBlock>
         <TextBox Name="txtRecognizedChar"
-                 Width="35px"
+                 Width="35px" Height="22"
                  Grid.Column="3" Grid.Row="5"
                  Margin="10px" HorizontalAlignment="Left"
-                 IsReadOnly="True"/>
-        -->
+                 IsReadOnly="True" Visibility="Hidden"/>
         
         <Button Name="btnRecognizeImage"
                 Grid.Column="2" Grid.ColumnSpan="2"

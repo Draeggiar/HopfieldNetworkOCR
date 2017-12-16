@@ -54,21 +54,11 @@ namespace HopfieldNetworkOCR.UnitTests.Helpers
         {
             var images = ImageHelper.LoadAllFromCatalog(ImageFolder);
 
-            foreach (string image in images)
+            foreach (var image in images)
             {
-                Assert.AreEqual(ImageContent, image);
+                Assert.AreEqual(ImageName.Split('.')[0], image.Key);
+                Assert.AreEqual(ImageContent, image.Value);
             }
-        }
-
-        [TestMethod]
-        [TestCategory("Helpers")]
-        public void ConvertImageToCharTest()
-        {
-            var image = ImageHelper.LoadImage(ImageFolder + ImageName);
-
-            var letter = ImageHelper.ConvertImageToChar(image);
-
-            Assert.AreEqual('a', letter);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace HopfieldNetworkOCR.Core.Model
             {
                 newNodeValue += int.Parse(input[j].ToString()) * this[nodeToUpdate, j].Value;
             }
-            return newNodeValue;
+            return (int) (newNodeValue *0.6);
         }
 
         //private double[] ConvertToBipolar(byte[] row)

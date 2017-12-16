@@ -49,13 +49,9 @@ namespace HopfieldNetworkOCR.UnitTests.Model
         [TestCategory("Core")]
         public void GetResult()
         {
-            var patternsToTrain = new List<string>
-            {
-                Helpers.MatrixHelperTests.Pattern2
-            };
-            var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1});
+            var network = new HopfieldNetwork(new List<string> { Helpers.MatrixHelperTests.Pattern1,
+                Helpers.MatrixHelperTests.Pattern2 });
 
-            network.Train(patternsToTrain);
             var result = network.GetResult(Helpers.MatrixHelperTests.Pattern1);
 
             Assert.AreEqual(Helpers.MatrixHelperTests.Pattern1, result);

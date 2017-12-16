@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HopfieldNetworkOCR.Core.Logic;
 
 namespace HopfieldNetworkOCR.Core.Model
 {
@@ -13,6 +14,7 @@ namespace HopfieldNetworkOCR.Core.Model
         private string _inputVector;
         private string _outputVector;
         private Dictionary<double, string> _bestPair;
+        private Dictionary<string, string> _inputVectors;
 
         //TODO check for null
         public int NumberOfNeurons => _curentWeightsMatrix.Size * _curentWeightsMatrix.Size;
@@ -48,12 +50,18 @@ namespace HopfieldNetworkOCR.Core.Model
             _inputVector = input.First();
             _curentWeightsMatrix = new Matrix(input.First());
             _outputVector = input.First();
-            //_bestPair = new Dictionary<double, string> { { CurrentEnergyState, input.First() } };
         }
 
         public int GetNeuronValue(int i, int j)
         {
             return _curentWeightsMatrix[i, j].Value;
+        }
+
+        public void Train(Dictionary<string, string> inputVectorsWithNames)
+        {
+            _inputVectors = inputVectorsWithNames;
+
+            Train(inputVectorsWithNames.Values.ToList());
         }
 
         // TODO improve capacity
@@ -76,9 +84,8 @@ namespace HopfieldNetworkOCR.Core.Model
                         weights += (2 * int.Parse(vector[i].ToString()) - 1) *
                                    (2 * int.Parse(vector[j].ToString()) - 1);
                     }
-                    _curentWeightsMatrix[i, j].Value = weights;
+                    _curentWeightsMatrix[i, j].Value = (int) (weights * 0.9);
                 }
-                //trainEventArgs.ItemName = inputVectors.ToList()[i];
                 trainEventArgs.CurrentItem = i + 1;
                 OnItemProcessed?.Invoke(this, trainEventArgs);
             }
@@ -116,6 +123,21 @@ namespace HopfieldNetworkOCR.Core.Model
             if (!FinalCheck(_outputVector))
                 GetResult(_outputVector);
             return _bestPair.First().Value;
+        }
+
+        public bool TryGetChar(string input, out char recognizedCharacter)
+        {
+            recognizedCharacter = '\0';
+            var isKnownChar = false;
+
+            foreach (var vector in _inputVectors)
+            {
+                if (!FuzzyStringComparer.Equals(input, vector.Value)) continue;
+                isKnownChar = true;
+                recognizedCharacter = char.Parse(vector.Key);
+            }
+
+            return isKnownChar;
         }
 
         private char CalculateOutput(string input, int nodeToUpdate)
@@ -178,7 +200,6 @@ namespace HopfieldNetworkOCR.Core.Model
     {
         public int ItemsCount;
         public int CurrentItem;
-        public string ItemName;
 
         internal TrainEventArgs(int items)
         {
