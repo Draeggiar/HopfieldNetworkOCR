@@ -42,7 +42,6 @@
     <Compile Include="Logic\FuzzyStringComparer.cs" />
     <Compile Include="Model\HopfieldNetwork.cs" />
     <Compile Include="Model\Matrix.cs" />
-    <Compile Include="Model\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HopfieldCore.cd" />
+    <None Include="ReferencedDlls\LICENSE" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

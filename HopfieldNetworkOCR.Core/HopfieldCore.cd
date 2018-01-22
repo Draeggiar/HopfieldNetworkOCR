@@ -3,24 +3,23 @@
   <Class Name="HopfieldNetworkOCR.Core.Model.HopfieldNetwork">
     <Position X="2.75" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>OAAgAABAAAAABVQEgABAAAAAAAAAAAAAAEAAAAAQAAA=</HashCode>
+      <HashCode>OAAgBCBAAAAABdQFgABAAAAAAAAAAABAAEAAAAAAAAA=</HashCode>
       <FileName>Model\HopfieldNetwork.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HopfieldNetworkOCR.Core.Model.Matrix">
-    <Position X="5.75" Y="1" Width="1.5" />
+    <Position X="5.75" Y="1" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAgQAACAACAAAAAAAAgAAAAAAACAAAAAA=</HashCode>
+      <HashCode>AAAAAAgAAAAAgQAACAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Model\Matrix.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HopfieldNetworkOCR.Core.Model.Neuron">
-    <Position X="0.75" Y="1.25" Width="1.5" />
+  <Class Name="HopfieldNetworkOCR.Core.Logic.FuzzyStringComparer" Collapsed="true">
+    <Position X="5.75" Y="4.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>ABQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Model\Neuron.cs</FileName>
+      <HashCode>AAAAAAAAAAACAAAAgAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Logic\FuzzyStringComparer.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

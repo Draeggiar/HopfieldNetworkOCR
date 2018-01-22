@@ -8,15 +8,15 @@ namespace HopfieldNetworkOCR.Core.Model
 {
     public class HopfieldNetwork
     {
-        public event EventHandler<TrainEventArgs> OnItemProcessed;
+        public event EventHandler<ProcessEventArgs> OnItemProcessed;
 
         private Matrix _curentWeightsMatrix;
         private string _inputVector;
         private string _outputVector;
-        private Dictionary<double, string> _bestPair;
-        private Dictionary<string, string> _inputVectors;
+        private KeyValuePair<double, string> _localMinimum;
+        private Dictionary<string, string> _inputVectorsWithNames;
+        private int _iteration;
 
-        //TODO check for null
         public int NumberOfNeurons => _curentWeightsMatrix.Size * _curentWeightsMatrix.Size;
         public double CurrentEnergyState => EvaluateEnergyFunction();
 
@@ -37,92 +37,74 @@ namespace HopfieldNetworkOCR.Core.Model
             }
         }
 
-        public HopfieldNetwork() { }
-
-        public HopfieldNetwork(List<string> input) : this()
-        {
-            Initialize(input);
-            Train(input);
-        }
-
-        private void Initialize(List<string> input)
-        {
-            _inputVector = input.First();
-            _curentWeightsMatrix = new Matrix(input.First());
-            _outputVector = input.First();
-        }
-
-        public int GetNeuronValue(int i, int j)
-        {
-            return _curentWeightsMatrix[i, j].Value;
-        }
-
         public void Train(Dictionary<string, string> inputVectorsWithNames)
         {
-            _inputVectors = inputVectorsWithNames;
+            _inputVectorsWithNames = inputVectorsWithNames;
 
-            Train(inputVectorsWithNames.Values.ToList());
+            var vectors = inputVectorsWithNames.Values.ToList();
+            Initialize(vectors.First());
+            HebbianLearning(vectors);
         }
 
-        // TODO improve capacity
-        public void Train(List<string> inputVectors)
+        private void Initialize(string input)
         {
-            if (_curentWeightsMatrix == null)
-                Initialize(inputVectors);
+            _inputVector = input;
+            _curentWeightsMatrix = new Matrix(input);
+            _outputVector = input;
+            _localMinimum = new KeyValuePair<double, string>(double.MaxValue, string.Empty);
+        }
 
-            var trainEventArgs = new TrainEventArgs(_curentWeightsMatrix.Size);
+        private void HebbianLearning(List<string> inputVectors)
+        {
+            var trainEventArgs = new ProcessEventArgs(_curentWeightsMatrix.Size);
 
             // Hebbian Rule
-
             for (int i = 0; i < _curentWeightsMatrix.Size; i++)
             {
                 for (int j = 0; j < _curentWeightsMatrix.Size; j++)
                 {
-                    int weights = 0;
-                    foreach (string vector in inputVectors)
+                    var weights = 0.0;
+                    if (i != j)
                     {
-                        weights += (2 * int.Parse(vector[i].ToString()) - 1) *
-                                   (2 * int.Parse(vector[j].ToString()) - 1);
+                        foreach (string vector in inputVectors)
+                        {
+                            weights += (2 * double.Parse(vector[i].ToString()) - 1) *
+                                       (2 * double.Parse(vector[j].ToString()) - 1);
+                        }
                     }
-                    _curentWeightsMatrix[i, j].Value = (int) (weights * 0.9);
+                    _curentWeightsMatrix[i, j] = weights / _curentWeightsMatrix.Size;
                 }
                 trainEventArgs.CurrentItem = i + 1;
                 OnItemProcessed?.Invoke(this, trainEventArgs);
             }
-
-            _curentWeightsMatrix.ClearDiagonal();
         }
 
         // https://www.tutorialspoint.com/artificial_neural_network/artificial_neural_network_hopfield.htm
         public string GetResult(string input)
         {
-            if (_bestPair == null)
-                _bestPair = new Dictionary<double, string> { { double.MaxValue, string.Empty } };
+            if (_curentWeightsMatrix.Size != input.Length)
+                throw new ArgumentException("Wrong image size");
 
-            if (_curentWeightsMatrix.Size != input.Length) throw new ArgumentException("Wrong image size");
+            OnItemProcessed?.Invoke(this, 
+                new ProcessEventArgs(int.MaxValue) {CurrentItem = ++_iteration});
 
-            var savedEnergyState = CurrentEnergyState;
             _inputVector = input;
+            var savedEnergyState = CurrentEnergyState;
             var output = new StringBuilder(input);
 
             var nodeToUpdate = NodeToUpdate;
-            output[nodeToUpdate] = CalculateOutput(input, nodeToUpdate);
+            output[nodeToUpdate] = ApplyActivationFunction(input, nodeToUpdate);
             _outputVector = output.ToString();
 
-            if (CurrentEnergyState <= _bestPair.First().Key)
-            {
-                _bestPair.Clear();
-                _bestPair.Add(CurrentEnergyState, _outputVector);
-            }
+            if (CurrentEnergyState < _localMinimum.Key)
+                _localMinimum = new KeyValuePair<double, string>(CurrentEnergyState, _outputVector);
 
-            if (_outputVector != input 
-                || CurrentEnergyState < savedEnergyState
-                || _nodesToUpdate.Count > 0)
+            if (CurrentEnergyState > savedEnergyState
+                || _nodesToUpdate.Count > 0
+                && !FinalCheck(_outputVector))
                 GetResult(_outputVector);
 
-            if (!FinalCheck(_outputVector))
-                GetResult(_outputVector);
-            return _bestPair.First().Value;
+            return _localMinimum.Value;
         }
 
         public bool TryGetChar(string input, out char recognizedCharacter)
@@ -130,23 +112,28 @@ namespace HopfieldNetworkOCR.Core.Model
             recognizedCharacter = '\0';
             var isKnownChar = false;
 
-            foreach (var vector in _inputVectors)
+            foreach (var vector in _inputVectorsWithNames)
             {
-                if (!FuzzyStringComparer.Equals(input, vector.Value)) continue;
+                if (string.IsNullOrEmpty(vector.Key) || vector.Key.Length > 1)
+                    throw new ArgumentException("Cannot associate output with letter. Check file names.");
+
+                if(!string.Equals(input, vector.Value))
+                    if (!FuzzyStringComparer.Equals(input, vector.Value)) continue;
                 isKnownChar = true;
                 recognizedCharacter = char.Parse(vector.Key);
+                break;
             }
 
             return isKnownChar;
         }
 
-        private char CalculateOutput(string input, int nodeToUpdate)
+        private char ApplyActivationFunction(string input, int nodeToUpdate)
         {
-            var bipolarValue = _curentWeightsMatrix.GetValueForNode(input, nodeToUpdate);
+            var neuronWeight = _curentWeightsMatrix.GetValueForNode(input, nodeToUpdate);
 
-            if (bipolarValue > 0)
+            if (neuronWeight > 0)
                 return '1';
-            else if (bipolarValue < 0)
+            else if(neuronWeight < 0)
                 return '0';
             return input[nodeToUpdate];
         }
@@ -157,7 +144,7 @@ namespace HopfieldNetworkOCR.Core.Model
 
             for (int i = 0; i < _curentWeightsMatrix.Size; i++)
             {
-                output[i] = CalculateOutput(vectorToCheck, i);
+                output[i] = ApplyActivationFunction(vectorToCheck, i);
                 if (output.ToString() != vectorToCheck)
                     return false;
             }
@@ -173,16 +160,18 @@ namespace HopfieldNetworkOCR.Core.Model
             {
                 for (int j = 0; j < _curentWeightsMatrix.Size; j++)
                 {
-                    energy += int.Parse(_outputVector[i].ToString()) * int.Parse(_outputVector[j].ToString()) *
-                              _curentWeightsMatrix[i, j].Value;
+                    energy += double.Parse(_outputVector[i].ToString()) 
+                        * double.Parse(_outputVector[j].ToString()) 
+                        * _curentWeightsMatrix[i, j];
                 }
             }
 
-            energy = energy * -(1 / 2);
+            energy = energy *  -(1.0 / 2.0);
 
             for (int i = 0; i < _curentWeightsMatrix.Size; i++)
             {
-                energy -= _inputVector[i] * _outputVector[i];
+                energy -= double.Parse(_inputVector[i].ToString()) 
+                    * double.Parse(_outputVector[i].ToString());
             }
 
             return energy;
@@ -190,18 +179,18 @@ namespace HopfieldNetworkOCR.Core.Model
 
         public void ResetNetworkState()
         {
-            _bestPair.Clear();
-            _bestPair.Add(double.MaxValue, string.Empty);
+            _localMinimum = new KeyValuePair<double, string>(double.MaxValue, string.Empty);
             _nodesToUpdate = null;
+            _iteration = 0;
         }
     }
 
-    public class TrainEventArgs : EventArgs
+    public class ProcessEventArgs : EventArgs
     {
         public int ItemsCount;
         public int CurrentItem;
 
-        internal TrainEventArgs(int items)
+        internal ProcessEventArgs(int items)
         {
             ItemsCount = items;
         }

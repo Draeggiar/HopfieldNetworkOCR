@@ -13,13 +13,13 @@
                 <MenuItem Header="_Zapisz sieć" IsEnabled="False"/>
                 <MenuItem Header="_Wczytaj sieć" IsEnabled="False"/>
                 <MenuItem Name="miChooseImage" Header="_Wybierz obraz do rozpoznania" 
-                          IsEnabled="{Binding Model.NetworkTrained}"
+                          IsEnabled="{Binding ViewModel.NetworkTrained}"
                           Click="miChooseImage_OnClick"/>
             </MenuItem>
             <MenuItem Header="_Sieć" Height="25">
                 <MenuItem Name="miNetworkNew" Header="_Utwórz nową" Click="miNetworkNew_OnClick"/>
                 <MenuItem Name="miNetworkLearn" Header="_Ucz" 
-                          IsEnabled="{Binding Model.NetworkExists}"
+                          IsEnabled="{Binding ViewModel.NetworkExists}"
                           Click="miNetwork_Learn_OnClick"/>
             </MenuItem>
         </Menu>

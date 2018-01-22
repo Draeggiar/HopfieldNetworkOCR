@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ImageHelperTests.cs" />
-    <Compile Include="Helpers\MatrixHelperTests.cs" />
     <Compile Include="Model\HopfieldNetworkTests.cs" />
     <Compile Include="Model\MatrixTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

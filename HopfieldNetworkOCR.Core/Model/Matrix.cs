@@ -1,78 +1,23 @@
-﻿using System;
-
-namespace HopfieldNetworkOCR.Core.Model
+﻿namespace HopfieldNetworkOCR.Core.Model
 {
     public class Matrix
     {
-        private readonly Neuron[,] _bipolarMatrix;
+        private readonly double[,] _weightMatrix;
 
-        public Neuron this[int i, int j] => _bipolarMatrix[i, j];
+        public double this[int i, int j]
+        {
+            get { return _weightMatrix[i, j]; }
+            set { _weightMatrix[i, j] = value; }
+        }
 
         public int Size { get; }
-           
+
         public Matrix(string inputVector)
         {
             Size = inputVector.Length;
-            _bipolarMatrix = new Neuron[Size, Size];
+            _weightMatrix = new double[Size, Size];
 
-            Initialize(inputVector);         
-        }
-
-        //public void CreateRow(byte[] row)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        public void Add(Matrix matrixToAdd)
-        {
-            if (matrixToAdd.Size != Size) throw new ArgumentException("Matrixes must have same size");
-
-            for (int i = 0; i < Size; i++)
-            {
-                for (int j = 0; j < Size; j++)
-                {
-                    _bipolarMatrix[i, j].Value += matrixToAdd[i, j].Value;
-                }
-            }
-
-            ClearDiagonal();
-        }
-
-        public int GetValueForNode(string input, int nodeToUpdate)
-        {
-            int newNodeValue = int.Parse(input[0].ToString()) * this[nodeToUpdate, 0].Value;
-            for (int j = 1; j < Size ; j++)
-            {
-                newNodeValue += int.Parse(input[j].ToString()) * this[nodeToUpdate, j].Value;
-            }
-            return (int) (newNodeValue *0.6);
-        }
-
-        //private double[] ConvertToBipolar(byte[] row)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //public Matrix GetColumn(int col)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Matrix Transpose(string matrix)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void ClearDiagonal()
-        {
-            for (int i = 0; i < Size; i++)
-            {
-                for (int j = 0; j < Size; j++)
-                {
-                    if (i == j)
-                        _bipolarMatrix[i, j].Value = 0;
-                }
-            }
+            Initialize(inputVector);
         }
 
         // http://web.cs.ucla.edu/~rosen/161/notes/hopfield.html
@@ -82,15 +27,23 @@ namespace HopfieldNetworkOCR.Core.Model
             {
                 for (int j = 0; j < inputVector.Length; j++)
                 {
-                    _bipolarMatrix[i, j] = new Neuron
-                    {
-                        Value = (2*int.Parse(inputVector[i].ToString()) - 1)*
-                                (2*int.Parse(inputVector[j].ToString()) - 1)
-                    };
+                    if (i == j)
+                        _weightMatrix[i, j] = 0;
+                    else
+                        _weightMatrix[i, j] = (2 * int.Parse(inputVector[i].ToString()) - 1) *
+                                              (2 * int.Parse(inputVector[j].ToString()) - 1);
                 }
             }
+        }
 
-            ClearDiagonal();
+        public double GetValueForNode(string input, int nodeToUpdate)
+        {
+            var newNodeValue = int.Parse(input[0].ToString()) * this[nodeToUpdate, 0];
+            for (int j = 1; j < Size ; j++)
+            {
+                newNodeValue += int.Parse(input[j].ToString()) * this[nodeToUpdate, j];
+            }
+            return newNodeValue;
         }
     }
 }

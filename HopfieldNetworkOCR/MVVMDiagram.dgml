@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="(@1 Namespace=HopfieldNetworkOCR.Core.Model Type=Matrix)" Category="CodeSchema_Class" Bounds="-9508.40583333333,-9812.4997,74.5366666666669,26" CodeSchemaProperty_IsPublic="True" CommonLabel="Matrix" Icon="Microsoft.VisualStudio.Class.Public" Label="Matrix" SourceLocation="(Assembly=&quot;file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR.Core/Model/Matrix.cs&quot; StartLineNumber=2 StartCharacterOffset=17 EndLineNumber=2 EndCharacterOffset=23)" />
+    <Node Id="(@3 Namespace=HopfieldNetworkOCR.UserControls Type=MainMenu)" Category="CodeSchema_Class" Bounds="-10105.5392838542,-9807.0927734375,98.2133333333331,26" CodeSchemaProperty_IsPublic="True" CommonLabel="MainMenu" Icon="Microsoft.VisualStudio.Class.Public" Label="MainMenu" SourceLocation="(Assembly=&quot;file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR/UserControls/MainMenu.xaml.cs&quot; StartLineNumber=10 StartCharacterOffset=25 EndLineNumber=10 EndCharacterOffset=33)" />
+    <Node Id="(@3 Namespace=HopfieldNetworkOCR.ViewModels Type=NetworkViewModel)" Category="CodeSchema_Class" Bounds="-9828.99429036458,-9818.994140625,145.526666666665,26" CodeSchemaProperty_IsPublic="True" CommonLabel="NetworkViewModel" Icon="Microsoft.VisualStudio.Class.Public" Label="NetworkViewModel" SourceLocation="(Assembly=&quot;file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR/ViewModels/NetworkViewModel.cs&quot; StartLineNumber=10 StartCharacterOffset=17 EndLineNumber=10 EndCharacterOffset=33)" />
+    <Node Id="@2" Category="CodeSchema_Class" Bounds="-9546.97583333333,-9852.4998,151.676666666666,86.0002000000022" CodeSchemaProperty_IsPublic="True" CommonLabel="HopfieldNetwork" Group="Expanded" Icon="Microsoft.VisualStudio.Class.Public" Label="HopfieldNetwork" SourceLocation="(Assembly=&quot;file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR.Core/Model/HopfieldNetwork.cs&quot; StartLineNumber=8 StartCharacterOffset=17 EndLineNumber=8 EndCharacterOffset=32)" />
+    <Node Id="@4" Category="CodeSchema_Class" Bounds="-10125.5392838542,-9847.0926734375,138.213333333333,86.0002000000022" CodeSchemaProperty_IsPublic="True" CommonLabel="MainWindow" Group="Expanded" Icon="Microsoft.VisualStudio.Class.Public" Label="MainWindow" SourceLocation="(Assembly=&quot;file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR/MainWindow.xaml.cs&quot; StartLineNumber=12 StartCharacterOffset=25 EndLineNumber=12 EndCharacterOffset=35)" />
+    <Node Id="Model" Bounds="-9566.97583333333,-9892.4999,191.676666666666,146" Group="Expanded" UseManualLocation="True" />
+    <Node Id="View" Bounds="-10145.5392838542,-9887.0927734375,178.213333333333,146" Group="Expanded" UseManualLocation="True" />
+    <Node Id="ViewModel" Bounds="-9848.99412,-9858.99412,185.514906666664,85.9882399999988" Group="Expanded" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="@2" Target="(@1 Namespace=HopfieldNetworkOCR.Core.Model Type=Matrix)" Category="Contains" />
+    <Link Source="@4" Target="(@3 Namespace=HopfieldNetworkOCR.UserControls Type=MainMenu)" Category="Contains" />
+    <Link Source="Model" Target="@2" Category="Contains" />
+    <Link Source="Model" Target="ViewModel" Bounds="-9654.47989141626,-9818.32338101275,87.5040580829282,1.07420676273796" />
+    <Link Source="View" Target="@4" Category="Contains" />
+    <Link Source="View" Target="ViewModel" Bounds="-9967.32595052087,-9815.35350836286,109.332012153669,0.694616024464267" />
+    <Link Source="ViewModel" Target="(@3 Namespace=HopfieldNetworkOCR.ViewModels Type=NetworkViewModel)" Category="Contains" />
+    <Link Source="ViewModel" Target="Model" Bounds="-9663.47921333334,-9818.21290462256,87.5040580829282,1.07420676273796" />
+    <Link Source="ViewModel" Target="View" Bounds="-9958.32613215367,-9815.41068665796,109.332012153669,0.694616024464267" Label="Data Binding" LabelBounds="-9937.84075312237,-9811.06337864492,68.3866666666672,15.9599999999991" />
+  </Links>
+  <Categories>
+    <Category Id="CodeSchema_Class" Label="Class" BasedOn="CodeSchema_Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Classes" />
+    <Category Id="CodeSchema_Type" Label="Type" CanBeDataDriven="True" DefaultAction="Node:Both:CodeSchema_Member" Icon="CodeSchema_Class" NavigationActionLabel="Types" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CodeSchemaProperty_IsPublic" Label="Is Public" Description="Flag to indicate the scope is Public" DataType="System.Boolean" />
+    <Property Id="CommonLabel" DataType="System.String" />
+    <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="SourceLocation" Label="Start Line Number" DataType="Microsoft.VisualStudio.GraphModel.CodeSchema.SourceLocation" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+  </Properties>
+  <QualifiedNames>
+    <Name Id="Assembly" Label="Assembly" ValueType="Uri" />
+    <Name Id="Namespace" Label="Namespace" ValueType="System.String" />
+    <Name Id="Type" Label="Type" ValueType="System.Object" />
+  </QualifiedNames>
+  <IdentifierAliases>
+    <Alias n="1" Uri="Assembly=$(54ef2e9e-cfc5-4714-93d8-6fc8698b5b96.OutputPathUri)" />
+    <Alias n="2" Id="(@1 Namespace=HopfieldNetworkOCR.Core.Model Type=HopfieldNetwork)" />
+    <Alias n="3" Uri="Assembly=$(a3f9f444-9143-4aca-be85-09e549f1f523.OutputPathUri)" />
+    <Alias n="4" Id="(@3 Namespace=HopfieldNetworkOCR Type=MainWindow)" />
+  </IdentifierAliases>
+  <Paths>
+    <Path Id="54ef2e9e-cfc5-4714-93d8-6fc8698b5b96.OutputPath" Value="C:\Users\tama2\documents\visual studio 2015\Projects\HopfieldNetworkOCR\HopfieldNetworkOCR.Core\bin\Debug\HopfieldNetworkOCR.Core.dll" />
+    <Path Id="54ef2e9e-cfc5-4714-93d8-6fc8698b5b96.OutputPathUri" Value="file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR.Core/bin/Debug/HopfieldNetworkOCR.Core.dll" />
+    <Path Id="a3f9f444-9143-4aca-be85-09e549f1f523.OutputPath" Value="C:\Users\tama2\documents\visual studio 2015\Projects\HopfieldNetworkOCR\HopfieldNetworkOCR\bin\Debug\HopfieldNetworkOCR.exe" />
+    <Path Id="a3f9f444-9143-4aca-be85-09e549f1f523.OutputPathUri" Value="file:///C:/Users/tama2/documents/visual studio 2015/Projects/HopfieldNetworkOCR/HopfieldNetworkOCR/bin/Debug/HopfieldNetworkOCR.exe" />
+  </Paths>
+</DirectedGraph>

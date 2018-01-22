@@ -12,12 +12,12 @@ namespace HopfieldNetworkOCR
     // http://www.wpf-tutorial.com/
     public partial class MainWindow
     {
-        public static NetworkViewModel Model { get; private set; }
+        public static NetworkViewModel ViewModel { get; private set; }
 
         public MainWindow()
         {
-            Model = new NetworkViewModel();
-            Model.PropertyChanged += model_OnPropertyChanged;
+            ViewModel = new NetworkViewModel();
+            ViewModel.PropertyChanged += viewModel_OnPropertyChanged;
             InitializeComponent();
 
             Application.Current.DispatcherUnhandledException += HandleApplicationExceptions;
@@ -28,22 +28,21 @@ namespace HopfieldNetworkOCR
             txtOutput.Text = dispatcherUnhandledExceptionEventArgs.Exception.Message;
         }
 
-        private void model_OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void viewModel_OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             switch (propertyChangedEventArgs.PropertyName)
             {
                 case "NetworkExists":
-                    if (Model.NetworkExists)
+                    if (ViewModel.NetworkExists)
                     {
                         txtNetworkName.Visibility = Visibility.Visible;
                         pbStatus.Visibility = Visibility.Visible;
                         txtStatus.Visibility = Visibility.Visible;
-                        Model.HopfieldNetwork.OnItemProcessed += HopfieldNetwork_OnOnItemProcessed;
+                        ViewModel.HopfieldNetwork.OnItemProcessed += HopfieldNetwork_OnOnItemProcessed;
                     }
                     break;
                 case "IsKnownCharacter":
-                    Visibility visibility;
-                    visibility = Model.IsKnownCharacter ? Visibility.Visible : Visibility.Hidden;
+                    var visibility = ViewModel.IsKnownCharacter ? Visibility.Visible : Visibility.Hidden;
 
                     txtRecognizedCharLabel.Visibility = visibility;
                     txtRecognizedChar.Visibility = visibility;
@@ -51,42 +50,52 @@ namespace HopfieldNetworkOCR
             }
         }
 
-        //TODO progress przy rozpoznaniu
+        private void HopfieldNetwork_OnOnItemProcessed(object sender, ProcessEventArgs processEventArgs)
+        {
+            if (processEventArgs.ItemsCount == int.MaxValue)
+            {
+                txtStatus.Text = "Iteracja: " + processEventArgs.CurrentItem;
+                pbStatus.Dispatcher.Invoke(() => pbStatus.Value = 100, DispatcherPriority.Background);
+            }
+            else
+            {
+                var progresPercentage = (double) processEventArgs.CurrentItem /
+                                        (double) processEventArgs.ItemsCount * 100.0;
+                txtStatus.Text = "Postęp nauki: " + $"{progresPercentage:0}%";
+                pbStatus.Dispatcher.Invoke(() => pbStatus.Value = progresPercentage, DispatcherPriority.Background);
+            }
+        }
+
         private void btnRecognizeImage_OnClick(object sender, RoutedEventArgs e)
         {
             imgOutput.Source = null;
             txtRecognizedChar.Text = string.Empty;
+            ViewModel.IsKnownCharacter = false;
 
             try
             {
-                var imageContent = ImageHelper.LoadImage(Model.ImageToRecognizePath);
-                char recognizedChar;
+                var imageContent = ImageHelper.LoadImage(ViewModel.ImageToRecognizePath);
 
-                var resultImage = Model.HopfieldNetwork.GetResult(imageContent);
-
+                var resultImage = ViewModel.HopfieldNetwork.GetResult(imageContent);
                 imgOutput.Source = ImageHelper.BitmapToImageSource(ImageHelper.ConvertVectorToImage(resultImage));
 
-                if (Model.HopfieldNetwork.TryGetChar(resultImage, out recognizedChar))
+                char recognizedChar;
+                if (ViewModel.HopfieldNetwork.TryGetChar(resultImage, out recognizedChar))
                 {
-                    Model.IsKnownCharacter = true;
+                    ViewModel.IsKnownCharacter = true;
                     txtRecognizedChar.Text = recognizedChar.ToString();
                 }
                 else
-                    Model.IsKnownCharacter = false;
-
-                Model.HopfieldNetwork.ResetNetworkState();
+                    ViewModel.IsKnownCharacter = false;
             }
             catch (Exception ex)
             {
                 txtOutput.Text = ex.Message;
             }
-        }
-
-        private void HopfieldNetwork_OnOnItemProcessed(object sender, TrainEventArgs trainEventArgs)
-        {
-            var progresPercentage = (double) trainEventArgs.CurrentItem /
-                                    (double) trainEventArgs.ItemsCount * 100.0;
-            pbStatus.Dispatcher.Invoke(() => pbStatus.Value = progresPercentage, DispatcherPriority.Background);
+            finally
+            {
+                ViewModel.HopfieldNetwork.ResetNetworkState();
+            }
         }
     }
 }

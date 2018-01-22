@@ -21,7 +21,7 @@ namespace HopfieldNetworkOCR.Helpers
             {
                 for (int j = 0; j < img.Width; j++)
                 {
-                  Color pixelColor = img.GetPixel(j, i);
+                    var pixelColor = img.GetPixel(j, i);
                     if (pixelColor.ToArgb() == Color.Black.ToArgb())
                     {
                         imageContent.Append("1");
@@ -32,18 +32,12 @@ namespace HopfieldNetworkOCR.Helpers
                     }
                     else
                     {
-                        throw new ArgumentException("Picture is not binary!");
+                        throw new ArgumentException("Picture is not binary");
                     }
                 }
             }
 
             return imageContent.ToString();
-        }
-
-        public static void SaveImage(string imageContent, string imagePath, int imageWidth = ResultImageWidth, int imageHeight = ResultImageHeight)
-        {
-            var newImage = ConvertVectorToImage(imageContent, imageWidth, imageHeight);
-            newImage.Save(imagePath);
         }
 
         public static Bitmap ConvertVectorToImage(string imageContent, int imageWidth = ResultImageWidth, int imageHeight = ResultImageHeight)
@@ -79,11 +73,11 @@ namespace HopfieldNetworkOCR.Helpers
 
         public static BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
-            using (MemoryStream memory = new MemoryStream())
+            using (var memory = new MemoryStream())
             {
                 bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
                 memory.Position = 0;
-                BitmapImage bitmapimage = new BitmapImage();
+                var bitmapimage = new BitmapImage();
                 bitmapimage.BeginInit();
                 bitmapimage.StreamSource = memory;
                 bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
@@ -91,6 +85,6 @@ namespace HopfieldNetworkOCR.Helpers
 
                 return bitmapimage;
             }
-        } 
+        }
     }
 }

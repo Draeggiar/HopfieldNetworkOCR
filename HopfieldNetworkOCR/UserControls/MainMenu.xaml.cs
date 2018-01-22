@@ -10,17 +10,17 @@ namespace HopfieldNetworkOCR.UserControls
 {
     public partial class MainMenu
     {
-        private static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof(NetworkViewModel), typeof(MainMenu));
-        private NetworkViewModel Model
+        private static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(NetworkViewModel), typeof(MainMenu));
+        private NetworkViewModel ViewModel
         {
-            get { return GetValue(ModelProperty) as NetworkViewModel; }
-            set { SetValue(ModelProperty, value); }
+            get { return GetValue(ViewModelProperty) as NetworkViewModel; }
+            set { SetValue(ViewModelProperty, value); }
         }
 
         public MainMenu()
         {
-            Model = MainWindow.Model;
+            ViewModel = MainWindow.ViewModel;
             InitializeComponent();
         }
 
@@ -32,14 +32,14 @@ namespace HopfieldNetworkOCR.UserControls
                 if (fbd.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath)) return;
                 var leariningData = ImageHelper.
                     LoadAllFromCatalog(fbd.SelectedPath);
-                Model.HopfieldNetwork.Train(leariningData);
-                Model.NetworkTrained = true;
+                ViewModel.HopfieldNetwork.Train(leariningData);
+                ViewModel.NetworkTrained = true;
             }
         }
 
         private void miNetworkNew_OnClick(object sender, RoutedEventArgs e)
         {
-            Model.HopfieldNetwork = new HopfieldNetwork();
+            ViewModel.HopfieldNetwork = new HopfieldNetwork();
         }
 
         private void miChooseImage_OnClick(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace HopfieldNetworkOCR.UserControls
                 Title = "Wybierz obraz do rozpoznania"
             };
             if (fileChoseDialog.ShowDialog() != true) return;
-            Model.ImageToRecognizePath = fileChoseDialog.FileName;
+            ViewModel.ImageToRecognizePath = fileChoseDialog.FileName;
         }
     }
 }

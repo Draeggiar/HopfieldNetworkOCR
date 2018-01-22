@@ -10,10 +10,11 @@ namespace HopfieldNetworkOCR.Core.Logic
             FuzzyStringComparisonOptions.UseHammingDistance,
             FuzzyStringComparisonOptions.UseOverlapCoefficient,
             FuzzyStringComparisonOptions.UseLongestCommonSubsequence,
-            FuzzyStringComparisonOptions.UseLongestCommonSubstring
+            FuzzyStringComparisonOptions.UseLongestCommonSubstring,
+            FuzzyStringComparisonOptions.UseRatcliffObershelpSimilarity
         };
 
-        private static readonly FuzzyStringComparisonTolerance Tolerance = FuzzyStringComparisonTolerance.Strong;
+        private static readonly FuzzyStringComparisonTolerance Tolerance = FuzzyStringComparisonTolerance.Normal;
 
         public static bool Equals(string vector1, string vector2)
         {
